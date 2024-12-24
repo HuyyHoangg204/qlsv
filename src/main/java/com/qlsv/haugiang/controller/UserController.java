@@ -72,6 +72,7 @@ public class UserController {
         existingUser.setGioiTinh(user.getGioiTinh());
         existingUser.setNgaySinh(user.getNgaySinh());
         existingUser.setEmail(user.getEmail());
+        existingUser.setMatKhau(user.getMatKhau());
 
 
         // Lưu lại thông tin đã cập nhật vào cơ sở dữ liệu
@@ -79,6 +80,29 @@ public class UserController {
 
         // Trả về kết quả với thông tin người dùng đã được cập nhật
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User user) {
+        Optional<User> existingUserOpt = userRepository.findByTaiKhoan(user.getTaiKhoan());
+        // Kiểm tra nếu không tìm thấy người dùng
+        if (!existingUserOpt.isPresent()) {
+            throw new RuntimeException("User not found: " + user.getTaiKhoan());
+        }
+        User existingUser = existingUserOpt.get();
+
+        if(user.getMatKhau().equals(existingUser.getMatKhau())) {
+            User result = new User();
+            result.setMatKhau(existingUser.getMatKhau());
+            result.setTaiKhoan(existingUser.getTaiKhoan());
+            result.setMaSv(existingUser.getMaSv());
+            result.setQuyen(existingUser.getQuyen());
+            return ResponseEntity.ok(result);
+        } else {
+            throw new RuntimeException("Login failed");
+        }
+
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.qlsv.haugiang.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
@@ -21,6 +22,8 @@ public class User {
     private String gioiTinh;
     private LocalDate ngaySinh;
     private String email;
+    @Getter
+    private String matKhau;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Diem diem;
 
@@ -29,7 +32,7 @@ public class User {
     public User() {
     }
 
-    public User(String maSv, String diachi, String soDienThoai, String taiKhoan, String hoTen, String hinhAnh, String quyen, String gioiTinh, LocalDate ngaySinh, String email) {
+    public User(String maSv, String diachi, String soDienThoai, String taiKhoan, String hoTen, String hinhAnh, String quyen, String gioiTinh, LocalDate ngaySinh, String email, String matKhau) {
         this.maSv = maSv;
         this.diachi = diachi;
         this.soDienThoai = soDienThoai;
@@ -40,10 +43,19 @@ public class User {
         this.gioiTinh = gioiTinh;
         this.ngaySinh = ngaySinh;
         this.email = email;
+        this.matKhau = matKhau;
     }
 
     public String getMaSv() {
         return maSv;
+    }
+
+    public String getMatKhau() {
+        return matKhau;
+    }
+
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
     }
 
     public void setMaSv(String maSv) {
